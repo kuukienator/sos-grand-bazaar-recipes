@@ -1,8 +1,3 @@
-export enum SearchConditionMode {
-	OR = "OR",
-	AND = "AND",
-}
-
 export interface RawGroupRow {
 	"Recipe Name": string;
 }
