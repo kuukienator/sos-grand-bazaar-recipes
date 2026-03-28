@@ -87,7 +87,7 @@ const filterIngredients = () => {
 };
 </script>
 
-<main class="flex flex-col mx-auto justify-center items-center px-8 gap-4 bg-mainWhite text-mainText">
+<main class="flex flex-col mx-auto justify-center items-center px-8 gap-4 bg-mainWhite text-mainText py-8">
     <h1 class="text-2xl font-bold">SOS Grand Bazaar - Recipe Finder</h1>
     <div class="relative w-full">
         <input class="border-2 border-border rounded-xl p-2 w-full"
@@ -167,3 +167,10 @@ const filterIngredients = () => {
         </div>
     {/if}
 </main>
+<footer class="w-full flex justify-center gap-2 py-2">
+    <p>2026</p>
+    |
+    <a href="https://www.ema.codes" target="_blank">www.ema.codes</a>
+    |
+    <a href="https://bsky.app/profile/ema.codes" target="_blank">@ema.codes</a>
+</footer>
