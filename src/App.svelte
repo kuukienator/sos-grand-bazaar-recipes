@@ -1,35 +1,17 @@
 <script lang="ts">
-import { onMount } from "svelte";
-import { loadData } from "./lib/data";
 import { type Recipe } from "./lib/types";
 import clsx from "clsx";
+import { ingredients, recipes } from "./assets/data";
 
-const GROUP_COLOR_MAP: Record<string, string> = {
-	Salads: "bg-rose-200",
-	Soups: "bg-fuchsia-200",
-	Sides: "bg-blue-200",
-	"Main Dishes": "bg-violet-200",
-	Desserts: "bg-teal-200",
-	"Other Recipes": "bg-lime-200",
-};
-
-let isLoading = $state(true);
+let isLoading = $state(false);
 let includeAllIngredientsInRecipe = $state(true);
-let recipesList: Recipe[] = $state([]);
-let ingredientsList: string[] = $state([]);
+let recipesList: Recipe[] = $state([...recipes]);
+let ingredientsList: string[] = $state([...ingredients]);
 let inputValue = $state("");
 
-let filteredRecipies: Recipe[] = $state([]);
+let filteredRecipies: Recipe[] = $state([...recipes]);
 let filteredIngredients: string[] = $state([]);
 let selectedIngredients: string[] = $state([]);
-
-onMount(async () => {
-	const { recipes, ingredients } = await loadData();
-	recipesList = recipes;
-	ingredientsList = ingredients;
-	filterRecipies();
-	isLoading = false;
-});
 
 const filterRecipies = () => {
 	if (selectedIngredients.length === 0) {
