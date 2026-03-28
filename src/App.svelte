@@ -118,12 +118,12 @@ const filterIngredients = () => {
             {#each selectedIngredients as ingredient}
                 <button
                         onclick={() => onSelectedIngredient(ingredient)}
-                        class="bg-highlight p-2 cursor-pointer rounded text-mainWhite">
+                        class="bg-highlight p-2 cursor-pointer rounded text-mainWhite hover:bg-highlight/90">
                     {ingredient}
                 </button>
             {/each}
             <div>
-                <button onclick={onRemoveAllIngredients} class="bg-button text-white p-2 cursor-pointer rounded-3xl">Remove all
+                <button onclick={onRemoveAllIngredients} class="bg-button text-white p-2 cursor-pointer rounded-3xl hover:bg-button/90">Remove all
                 </button>
             </div>
         </div>
