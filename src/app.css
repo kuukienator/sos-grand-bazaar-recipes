@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+@theme {
+	--color-mainWhite: #fffbe7;
+	--color-card: #f7f2d3;
+	--color-cardInner: #f2dbad;
+	--color-border: #d6c39c;
+	--color-mainText: #563523;
+	--color-secondaryText: #88725d;
+	--color-price1: #f2dcad;
+	--color-highlight: #9f7030;
+	--color-button: #523b31;
+
+	--font-mainFont: "Nunito", sans-serif;
+}
+
+body {
+	background-color: var(--color-mainWhite);
+	font-family: var(--font-mainFont);
+}
