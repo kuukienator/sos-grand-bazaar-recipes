@@ -140,8 +140,9 @@ const filterIngredients = () => {
                             <div class="bg-price1 p-1 pl-2 rounded-l-xl">Sales Price</div>
                             <div class="bg-mainWhite p-1 pr-2 rounded-r-xl">{recipe.baseValue.value}{recipe.baseValue.unit}</div>
                         </div>
-                        <div class="grid grid-cols-4 gap-2 bg-cardInner rounded-xl p-2">
+                        <div class="sm:grid sm:grid-rows-1 sm:grid-cols-4 gap-2 bg-cardInner rounded-xl p-2">
                             {#each recipe.ingredients as ingredient}
+                                <div class="sm:hidden">{ingredient.slot}</div>
                                 <div class="flex flex-col gap-1 text-center">
                                     {#if Array.isArray(ingredient.value)}
                                         <div class="flex flex-col gap-1">
