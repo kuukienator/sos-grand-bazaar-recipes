@@ -106,11 +106,13 @@ const filterIngredients = () => {
             </ul>
         {/if}
     </div>
-    <label for="andCondition" class="text-lg">
-        Recipe must include *ALL* ingredients
-        <input type="checkbox" name="andCondition" id="andCondition" bind:checked={includeAllIngredientsInRecipe}
-               onchange={filterRecipies}>
-    </label>
+    <div class="flex justify-center items-center gap-2">
+        <label for="andCondition" class="text-lg cursor-pointer">
+            Recipe must include *ALL* ingredients  
+        </label>
+        <input class="accent-button w-5 h-5 cursor-pointer"  type="checkbox" name="andCondition" id="andCondition" bind:checked={includeAllIngredientsInRecipe}
+                onchange={filterRecipies}>
+    </div>
     {#if selectedIngredients.length > 0}
         <div class="flex flex-row gap-2 items-center">
             {#each selectedIngredients as ingredient}
