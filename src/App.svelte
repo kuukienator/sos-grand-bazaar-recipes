@@ -13,6 +13,13 @@ let filteredRecipies: Recipe[] = $state([...recipes]);
 let filteredIngredients: string[] = $state([]);
 let selectedIngredients: string[] = $state([]);
 
+const getAssetName = (name: string): string => {
+    return name
+        .replace(/[^\w\-. ]/g, '_')
+        .replaceAll(' ', '_')
+        .trim();
+}
+
 const filterRecipies = () => {
 	if (selectedIngredients.length === 0) {
 		filteredRecipies = recipesList;
@@ -118,7 +125,8 @@ const filterIngredients = () => {
             {#each filteredRecipies as recipe}
                 <div class="bg-card rounded-xl p-2">
                     <div class={clsx("h-full border-2 rounded-xl p-2 flex flex-col gap-2 bg-card border-border text-mainText")}>
-                        <div class="font-bold text-2xl">{recipe.name}</div>
+                        <div class="font-bold text-2xl self-center">{recipe.name}</div>
+                        <img class="h-16 self-center my-2" src={`/recipe-images/${getAssetName(recipe.name)}.png`} alt={recipe.name} />
                         <div class="text-xl text-secondaryText">{recipe.group}</div>
                         <div class="flex text-xl">
                             <div class="bg-price1 p-1 pl-2 rounded-l-xl">Sales Price</div>
