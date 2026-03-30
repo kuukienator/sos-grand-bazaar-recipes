@@ -14,11 +14,11 @@ let filteredIngredients: string[] = $state([]);
 let selectedIngredients: string[] = $state([]);
 
 const getAssetName = (name: string): string => {
-    return name
-        .replace(/[^\w\-. ]/g, '_')
-        .replaceAll(' ', '_')
-        .trim();
-}
+	return name
+		.replace(/[^\w\-. ]/g, "_")
+		.replaceAll(" ", "_")
+		.trim();
+};
 
 const filterRecipies = () => {
 	if (selectedIngredients.length === 0) {

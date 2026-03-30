@@ -1,4 +1,5 @@
 import type { Recipe } from "../lib/types";
+
 export const recipes: Recipe[] = [
 	{
 		name: "Macaroni Salad",
@@ -1555,7 +1556,7 @@ export const recipes: Recipe[] = [
 		group: "Main Dishes",
 		ingredients: [
 			{ value: "Wheat Flour", slot: "Ingredient 1" },
-			{ value: "Mushrom (any)", slot: "Ingredient 2" },
+			{ value: "Mushroom (any)", slot: "Ingredient 2" },
 			{ value: "Cabbage", slot: "Ingredient 3" },
 		],
 		baseValue: { value: 1271, unit: "G" },
@@ -3679,7 +3680,6 @@ export const ingredients: string[] = [
 	"Monarch Mushroom",
 	"Morel Mushroom",
 	"Mugitsuku",
-	"Mushrom (any)",
 	"Mushroom (any)",
 	"Napa Cabbage",
 	"Nile Perch",
