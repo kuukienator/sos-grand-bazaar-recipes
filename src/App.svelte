@@ -97,22 +97,30 @@ const filterIngredients = () => {
     </div>
     <div class="flex justify-center items-center gap-2">
         <label for="andCondition" class="text-lg cursor-pointer">
-            Recipe must include *ALL* ingredients  
+            Recipe must include *ALL* ingredients
         </label>
-        <input class="accent-button w-5 h-5 cursor-pointer"  type="checkbox" name="andCondition" id="andCondition" bind:checked={includeAllIngredientsInRecipe}
-                onchange={filterRecipies}>
+        <input class="accent-button w-5 h-5 cursor-pointer" type="checkbox" name="andCondition" id="andCondition"
+               bind:checked={includeAllIngredientsInRecipe}
+               onchange={filterRecipies}>
     </div>
     {#if selectedIngredients.length > 0}
         <div class="flex flex-row gap-2 items-center">
             {#each selectedIngredients as ingredient}
                 <button
                         onclick={() => onSelectedIngredient(ingredient)}
-                        class="bg-highlight p-2 cursor-pointer rounded text-mainWhite hover:bg-highlight/90">
+                        class="bg-highlight p-2 cursor-pointer rounded text-mainWhite hover:bg-highlight/90 flex gap-2">
                     {ingredient}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-x">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             {/each}
             <div>
-                <button onclick={onRemoveAllIngredients} class="bg-button text-white p-2 cursor-pointer rounded-3xl hover:bg-button/90">Remove all
+                <button onclick={onRemoveAllIngredients}
+                        class="bg-button text-white p-2 px-3 cursor-pointer rounded-3xl hover:bg-button/90">Remove all
                 </button>
             </div>
         </div>
@@ -126,7 +134,8 @@ const filterIngredients = () => {
                 <div class="bg-card rounded-xl p-2">
                     <div class={clsx("h-full border-2 rounded-xl p-2 flex flex-col gap-2 bg-card border-border text-mainText")}>
                         <div class="font-bold text-2xl self-center">{recipe.name}</div>
-                        <img class="h-16 self-center my-2" src={`/recipe-images/${getAssetName(recipe.name)}.png`} alt={recipe.name} />
+                        <img class="h-16 self-center my-2" src={`/recipe-images/${getAssetName(recipe.name)}.png`}
+                             alt={recipe.name}/>
                         <div class="text-xl text-secondaryText">{recipe.group}</div>
                         <div class="flex text-xl">
                             <div class="bg-price1 p-1 pl-2 rounded-l-xl">Sales Price</div>
