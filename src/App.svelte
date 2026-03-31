@@ -10,8 +10,12 @@ let ingredientsList: string[] = $state([...ingredients]);
 let inputValue = $state("");
 
 let filteredRecipies: Recipe[] = $state([...recipes]);
-let filteredIngredients: string[] = $state([]);
+let filteredIngredients: string[] = $state([...ingredients]);
 let selectedIngredients: string[] = $state([]);
+let isOpen = $state(false);
+let highlightedIndex = $state(-1);
+
+let listEl: HTMLUListElement = $state(null as unknown as HTMLUListElement);
 
 const getAssetName = (name: string): string => {
 	return name
@@ -62,16 +66,80 @@ const onSelectedIngredient = (ingredient: string) => {
 		selectedIngredients = [...selectedIngredients, ingredient];
 	}
 	inputValue = "";
-	filteredIngredients = [];
+	filterIngredients();
 	filterRecipies();
 };
 
 const filterIngredients = () => {
-	console.log("Filter", inputValue);
+	highlightedIndex = -1;
 	if (inputValue) {
 		filteredIngredients = ingredientsList.filter((i) =>
 			i.toLowerCase().includes(inputValue.toLowerCase()),
 		);
+	} else {
+		filteredIngredients = [...ingredientsList];
+	}
+};
+
+const onFocus = () => {
+	isOpen = true;
+	filterIngredients();
+};
+
+const onBlur = () => {
+	setTimeout(() => {
+		isOpen = false;
+		highlightedIndex = -1;
+	}, 150);
+};
+
+const scrollHighlighted = () => {
+	if (listEl && highlightedIndex >= 0) {
+		const item = listEl.children[highlightedIndex] as HTMLElement;
+		item?.scrollIntoView({ block: "nearest" });
+	}
+};
+
+const onKeyDown = (e: KeyboardEvent) => {
+	if (!isOpen) {
+		if (e.key === "ArrowDown") {
+			isOpen = true;
+			filterIngredients();
+		}
+		return;
+	}
+
+	switch (e.key) {
+		case "ArrowDown":
+			e.preventDefault();
+			highlightedIndex = (highlightedIndex + 1) % filteredIngredients.length;
+			scrollHighlighted();
+			break;
+		case "ArrowUp":
+			e.preventDefault();
+			highlightedIndex =
+				highlightedIndex <= 0
+					? filteredIngredients.length - 1
+					: highlightedIndex - 1;
+			scrollHighlighted();
+			break;
+		case "Enter":
+			e.preventDefault();
+			if (highlightedIndex >= 0) {
+				onSelectedIngredient(filteredIngredients[highlightedIndex]);
+			}
+			break;
+		case "Escape":
+			isOpen = false;
+			highlightedIndex = -1;
+			break;
+		case "Backspace":
+			if (!inputValue && selectedIngredients.length > 0) {
+				onSelectedIngredient(
+					selectedIngredients[selectedIngredients.length - 1],
+				);
+			}
+			break;
 	}
 };
 </script>
@@ -79,18 +147,71 @@ const filterIngredients = () => {
 <main class="flex flex-col mx-auto justify-center items-center px-8 gap-4 bg-mainWhite text-mainText py-8">
     <h1 class="text-2xl font-bold">SOS Grand Bazaar - Recipe Finder</h1>
     <div class="relative w-full">
-        <input class="border-2 border-border rounded-xl p-2 w-full"
-               type="text"
-               placeholder="Search for ingredients..."
-               bind:value={inputValue}
-               oninput={filterIngredients}>
+        <label class="border-2 border-border focus-within:border-highlight rounded-xl p-2 w-full flex flex-wrap gap-1 items-center min-h-11.5 transition-colors cursor-pointer">
+            {#each selectedIngredients as ingredient}
+                <span class="bg-highlight text-mainWhite px-2 py-0.5 rounded-lg flex items-center gap-1 text-sm cusor-pointer">
+                    {ingredient}
+                    <button aria-label="Remove {ingredient}"
+                            class="hover:opacity-75 flex items-center cusor-pointer"
+                            onmousedown={(e) => e.preventDefault()}
+                            onclick={(e) => {
+                                e.stopPropagation();
+                                onSelectedIngredient(ingredient);
+                            }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </span>
+            {/each}
+            <input class="outline-none flex-1 min-w-35 bg-transparent cursor-text"
+                   type="text"
+                   placeholder={selectedIngredients.length === 0 ? "Search for ingredients..." : ""}
+                   bind:value={inputValue}
+                   oninput={filterIngredients}
+                   onfocus={onFocus}
+                   onblur={onBlur}
+                   onkeydown={onKeyDown}>
+            {#if selectedIngredients.length > 0}
+                <button aria-label="Clear all ingredients"
+                        class="text-mainWhite hover:bg-button/80 flex items-center p-1 transition-colors bg-button rounded-xl cursor-pointer"
+                        onmousedown={(e) => e.preventDefault()}
+                        onclick={(e) => {
+                            e.stopPropagation();
+                            onRemoveAllIngredients();
+                        }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            {/if}
+        </label>
 
-        {#if filteredIngredients.length > 0}
-            <ul class="border-2 border-border rounded-md absolute w-full flex flex-col gap-1 z-10 bg-card drop-shadow-2xl">
-                {#each filteredIngredients as ingredient}
+        {#if isOpen && filteredIngredients.length > 0}
+            <ul bind:this={listEl}
+                class="border-2 border-border rounded-md absolute w-full flex flex-col z-10 bg-card drop-shadow-2xl max-h-96 overflow-y-auto mt-1">
+                {#each filteredIngredients as ingredient, i}
                     <button
-                            class="cursor-pointer hover:bg-cardInner p-2 w-full text-left"
-                            onclick={() => onSelectedIngredient(ingredient)}>{ingredient}</button>
+                            class={clsx("cursor-pointer p-2 w-full text-left flex items-center justify-between", {
+                                "bg-cardInner": i === highlightedIndex,
+                                "hover:bg-cardInner": i !== highlightedIndex,
+                            })}
+                            onmousedown={(e) => e.preventDefault()}
+                            onclick={() => onSelectedIngredient(ingredient)}>
+                        <span>{ingredient}</span>
+                        {#if selectedIngredients.includes(ingredient)}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        {/if}
+                    </button>
                 {/each}
             </ul>
         {/if}
@@ -103,28 +224,6 @@ const filterIngredients = () => {
                bind:checked={includeAllIngredientsInRecipe}
                onchange={filterRecipies}>
     </div>
-    {#if selectedIngredients.length > 0}
-        <div class="flex flex-row gap-2 items-center">
-            {#each selectedIngredients as ingredient}
-                <button
-                        onclick={() => onSelectedIngredient(ingredient)}
-                        class="bg-highlight p-2 cursor-pointer rounded text-mainWhite hover:bg-highlight/90 flex gap-2">
-                    {ingredient}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="feather feather-x">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            {/each}
-            <div>
-                <button onclick={onRemoveAllIngredients}
-                        class="bg-button text-white p-2 px-3 cursor-pointer rounded-3xl hover:bg-button/90">Remove all
-                </button>
-            </div>
-        </div>
-    {/if}
     {#if isLoading}
         <div>Loading...</div>
     {/if}
