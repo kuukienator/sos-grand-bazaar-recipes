@@ -268,10 +268,19 @@ const onKeyDown = (e: KeyboardEvent) => {
         </div>
     {/if}
 </main>
+<div class="w-full text-center">Data from <a
+        class="hover:underline cursor-pointer"
+        href="https://www.reddit.com/r/storyofseasons/comments/1ngavo2/sos_gb_recipes_and_crops_spreadsheets/">u/AludraKijurorin</a>
+    -
+    <a class="hover:underline cursor-pointer"
+       href="https://docs.google.com/spreadsheets/d/17PUAMn7zTDnfk0vSOyO5nP_Q4e5YAtc4huzmq06KfLg/edit?gid=0#gid=0">Link
+        to source data
+        sheet</a>
+</div>
 <footer class="w-full flex justify-center gap-2 py-2">
     <p>2026</p>
     |
-    <a href="https://www.ema.codes" target="_blank">www.ema.codes</a>
+    <a class="hover:underline cursor-pointer" href="https://www.ema.codes" target="_blank">www.ema.codes</a>
     |
-    <a href="https://bsky.app/profile/ema.codes" target="_blank">@ema.codes</a>
+    <a class="hover:underline cursor-pointer" href="https://bsky.app/profile/ema.codes" target="_blank">@ema.codes</a>
 </footer>
