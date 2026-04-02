@@ -234,7 +234,7 @@ const onKeyDown = (e: KeyboardEvent) => {
                     <div class={clsx("h-full border-2 rounded-xl p-2 flex flex-col gap-2 bg-card border-border text-mainText")}>
                         <div class="font-bold text-2xl self-center">{recipe.name}</div>
                         <img class="h-16 self-center my-2" src={`/recipe-images/${getAssetName(recipe.name)}.png`}
-                             alt={recipe.name}/>
+                             alt={recipe.name} loading="lazy"/>
                         <div class="text-xl text-secondaryText">{recipe.group}</div>
                         <div class="flex text-xl">
                             <div class="bg-price1 p-1 pl-2 rounded-l-xl">Sales Price</div>
