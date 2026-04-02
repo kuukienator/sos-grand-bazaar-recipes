@@ -283,4 +283,6 @@ const onKeyDown = (e: KeyboardEvent) => {
     <a class="hover:underline cursor-pointer" href="https://www.ema.codes" target="_blank">www.ema.codes</a>
     |
     <a class="hover:underline cursor-pointer" href="https://bsky.app/profile/ema.codes" target="_blank">@ema.codes</a>
+    |
+    <a href="https://github.com/kuukienator/sos-grand-bazaar-recipes">Source</a>
 </footer>
