@@ -2,8 +2,11 @@ name: Build and Release
 
 on:
   release:
-    types: [created]
+    types: [ created ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -12,22 +15,19 @@ jobs:
         include:
           - os: macos-latest
             args: --mac
-            artifact: "*.dmg"
           - os: windows-latest
             args: --win
-            artifact: "*.exe"
           - os: ubuntu-latest
             args: --linux
-            artifact: "*.AppImage"
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -36,15 +36,27 @@ jobs:
       - name: Build web app
         run: npm run build
 
-      - name: Build and publish Electron app
-        run: npx electron-builder ${{ matrix.args }} --publish ${{ github.event_name == 'release' && 'always' || 'never' }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Electron app
+        run: npx electron-builder ${{ matrix.args }} --publish never
+
+      - name: Upload to GitHub release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.dmg
+            release/*.zip
+            release/*.exe
+            release/*.AppImage
 
       - name: Upload build artifact
         if: github.event_name != 'release'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-build
-          path: release/${{ matrix.artifact }}
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/*.exe
+            release/*.AppImage
           retention-days: 7
