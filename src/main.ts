@@ -2,7 +2,7 @@ import { mount } from "svelte";
 import "./app.css";
 import App from "./App.svelte";
 
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator && !navigator.userAgent.includes("Electron")) {
 	navigator.serviceWorker.register("/sw.js");
 }
 
