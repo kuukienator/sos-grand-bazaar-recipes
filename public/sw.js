@@ -1,4 +1,4 @@
-const CACHE_NAME = "sos-grand-bazaar-v2";
+const CACHE_NAME = "sos-grand-bazaar-v3";
 const FONT_CACHE = "sos-fonts-v1";
 
 self.addEventListener("install", (event) => {

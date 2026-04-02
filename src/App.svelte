@@ -270,9 +270,11 @@ const onKeyDown = (e: KeyboardEvent) => {
 </main>
 <div class="w-full text-center">Data from <a
         class="hover:underline cursor-pointer"
+        target="_blank"
         href="https://www.reddit.com/r/storyofseasons/comments/1ngavo2/sos_gb_recipes_and_crops_spreadsheets/">u/AludraKijurorin</a>
     -
     <a class="hover:underline cursor-pointer"
+    target="_blank"
        href="https://docs.google.com/spreadsheets/d/17PUAMn7zTDnfk0vSOyO5nP_Q4e5YAtc4huzmq06KfLg/edit?gid=0#gid=0">Link
         to source data
         sheet</a>
@@ -284,5 +286,5 @@ const onKeyDown = (e: KeyboardEvent) => {
     |
     <a class="hover:underline cursor-pointer" href="https://bsky.app/profile/ema.codes" target="_blank">@ema.codes</a>
     |
-    <a href="https://github.com/kuukienator/sos-grand-bazaar-recipes">Source</a>
+    <a href="https://github.com/kuukienator/sos-grand-bazaar-recipes" target="_blank">Source</a>
 </footer>
